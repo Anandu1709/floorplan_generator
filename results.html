@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Floor Plan - PlanIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #2575fc;
+            --primary-dark: #1a5cbf;
+            --success: #28a745;
+            --success-dark: #218838;
+            --gradient: linear-gradient(135deg, #6a11cb 0%, var(--primary) 100%);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.7;
+        }
+        
+        .header {
+            padding: 80px 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+        }
+        
+        .header h1 {
+            font-weight: 800;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s both;
+        }
+        
+        .header p {
+            font-weight: 500;
+            font-size: 1.5rem;
+            animation: fadeInUp 0.8s both 0.3s;
+        }
+        
+        .result-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            padding: 40px;
+            margin: -40px auto 60px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeInUp 0.8s both 0.5s;
+            max-width: 900px;
+        }
+        
+        .result-container h2 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .plan-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .plan-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .requirements {
+            margin-bottom: 30px;
+        }
+        
+        .requirements-badge {
+            background-color: #f1f5fe;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin-right: 15px;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 1px solid rgba(37, 117, 252, 0.2);
+        }
+        
+        .requirements-badge i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .action-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .download-btn {
+            background-color: var(--success);
+            border: none;
+        }
+        
+        .download-btn::before {
+            background: linear-gradient(135deg, #28a745 0%, #5cb85c 100%);
+            opacity: 0;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--success-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+        }
+        
+        .download-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .regenerate-btn {
+            background-color: var(--primary);
+            border: none;
+        }
+        
+        .regenerate-btn::before {
+            background: var(--gradient);
+            opacity: 0;
+        }
+        
+        .regenerate-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 117, 252, 0.3);
+        }
+        
+        .regenerate-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .footer {
+            background-color: #1a1e21;
+            color: white;
+            padding: 30px 0;
+            font-weight: 400;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                padding: 60px 0;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.2rem;
+            }
+            
+            .result-container {
+                padding: 30px 20px;
+                margin: -20px auto 40px;
+            }
+            
+            .requirements-badge {
+                padding: 8px 15px;
+                font-size: 1rem;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .action-btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInDown">Your Floor Plan</h1>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">AI-generated floor plan based on your requirements</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="result-container animate__animated animate__fadeInUp animate__delay-2s">
+            <h2 class="mb-4">Your Custom Floor Plan</h2>
+            
+            <div class="requirements mb-4">
+                <span class="requirements-badge">
+                    <i class="fas fa-bed"></i> {{ requirements.bedrooms }} Bedrooms
+                </span>
+                <span class="requirements-badge">
+                    <i class="fas fa-bath"></i> {{ requirements.bathrooms }} Bathrooms
+                </span>
+                <span class="requirements-badge">
+                    <i class="fas fa-ruler-combined"></i> {{ requirements.sq_feet }} sq ft
+                </span>
+               <!-- <span class="requirements-badge">
+                    <i class="fas fa-car"></i> {{ requirements.garages }} Garage(s)
+                </span>
+            -->
+            </div>
+            
+            <div class="text-center mb-5">
+                <img src="{{ url_for('static', filename='generated/' + generated_path) }}" alt="Generated Floor Plan" class="plan-image img-fluid animate__animated animate__fadeIn animate__delay-3s">
+            </div>
+            
+            <div class="text-center btn-group">
+                <a href="{{ url_for('static', filename='generated/' + generated_path) }}" download class="btn btn-success action-btn download-btn animate__animated animate__fadeInUp animate__delay-4s">
+                    <i class="fas fa-download me-2"></i> Download Floor Plan
+                </a>
+                <a href="{{ url_for('generate_page') }}" class="btn btn-primary action-btn regenerate-btn animate__animated animate__fadeInUp animate__delay-5s">
+                    <i class="fas fa-sync-alt me-2"></i> Regenerate
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>© 2025 PlanIT - AI Floor Plan Generator. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

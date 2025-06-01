@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Your Floor Plan - PlanIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2575fc;
+            --primary-dark: #1a5cbf;
+            --gradient: linear-gradient(135deg, #6a11cb 0%, var(--primary) 100%);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.7;
+        }
+        
+        .header {
+            padding: 80px 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+        }
+        
+        .header h1 {
+            font-weight: 800;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 1s both;
+        }
+        
+        .header p {
+            font-weight: 500;
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s both 0.3s;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            padding: 40px;
+            margin: -40px auto 60px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeInUp 0.8s both 0.5s;
+            max-width: 800px;
+        }
+        
+        .form-label {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .form-range {
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            flex-grow: 1;
+            margin-right: 15px;
+        }
+        
+        .form-range::-webkit-slider-thumb {
+            width: 24px;
+            height: 24px;
+            margin-top: -8px;
+            background: var(--primary);
+            border: none;
+            box-shadow: 0 2px 10px rgba(37, 117, 252, 0.3);
+        }
+        
+        .form-range::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border: none;
+            box-shadow: 0 2px 10px rgba(37, 117, 252, 0.3);
+        }
+        
+        .range-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .range-input {
+            width: 80px;
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        
+        .range-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.2);
+        }
+        
+        .generate-btn {
+            padding: 15px 45px;
+            font-size: 1.3rem;
+            font-weight: 700 !important;
+            border-radius: 50px;
+            background: var(--primary);
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 20px;
+            animation: fadeInUp 0.8s both 0.7s, pulse 1.5s 1.5s;
+        }
+        
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .generate-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 117, 252, 0.3);
+        }
+        
+        .generate-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .generate-btn.loading {
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        
+        .generate-btn.loading::after {
+            content: '\f1fc';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: spin 1s linear infinite;
+        }
+        
+        .footer {
+            background-color: #1a1e21;
+            color: white;
+            padding: 30px 0;
+            font-weight: 400;
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.2rem;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+                margin: -20px auto 40px;
+            }
+            
+            .range-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .form-range {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .range-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInDown">Generate Your Floor Plan</h1>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">Customize your requirements and let our AI create your perfect floor plan</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-container animate__animated animate__fadeInUp animate__delay-2s">
+            <form id="floorplan-form" action="{{ url_for('generate') }}" method="post">
+                <div class="mb-4">
+                    <label for="bedrooms" class="form-label">Number of Bedrooms</label>
+                    <div class="range-container">
+                        <input type="range" class="form-range" id="bedrooms" name="bedrooms" min="1" max="6" value="3" step="1" oninput="updateInputValue('bedrooms', this.value)">
+                        <input type="number" class="range-input" id="bedrooms-input" min="1" max="6" value="3" step="1" oninput="updateSliderValue('bedrooms', this.value)">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="bathrooms" class="form-label">Number of Bathrooms</label>
+                    <div class="range-container">
+                        <input type="range" class="form-range" id="bathrooms" name="bathrooms" min="1" max="6" value="2" step="1" oninput="updateInputValue('bathrooms', this.value)">
+                        <input type="number" class="range-input" id="bathrooms-input" min="1" max="6" value="2" step="1" oninput="updateSliderValue('bathrooms', this.value)">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="sq_feet" class="form-label">Square Feet</label>
+                    <div class="range-container">
+                        <input type="range" class="form-range" id="sq_feet" name="sq_feet" min="800" max="4000" value="1500" step="100" oninput="updateInputValue('sq_feet', this.value)">
+                        <input type="number" class="range-input" id="sq_feet-input" min="800" max="4000" value="1500" step="100" oninput="updateSliderValue('sq_feet', this.value)">
+                    </div>
+                </div>
+                <!--
+                <div class="mb-4">
+                    <label for="garages" class="form-label">Number of Garages</label>
+                    <div class="range-container">
+                        <input type="range" class="form-range" id="garages" name="garages" min="0" max="3" value="1" step="1" oninput="updateInputValue('garages', this.value)">
+                        <input type="number" class="range-input" id="garages-input" min="0" max="3" value="1" step="1" oninput="updateSliderValue('garages', this.value)">
+                    </div>
+                </div>
+            -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary generate-btn" id="generate-btn">Generate Floor Plan 🏠</button>
+                </div>
+                
+                <!-- Hidden fields for dataset paths -->
+                <input type="hidden" name="csv_path" value="house_plans_details.csv">
+                <input type="hidden" name="img_dir" value="images/images">
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>© 2025 PlanIT - AI Floor Plan Generator. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Update input field when slider changes
+        function updateInputValue(id, value) {
+            document.getElementById(`${id}-input`).value = value;
+        }
+        
+        // Update slider when input field changes
+        function updateSliderValue(id, value) {
+            const slider = document.getElementById(id);
+            const input = document.getElementById(`${id}-input`);
+            
+            // Validate the input
+            if (value < slider.min) value = slider.min;
+            if (value > slider.max) value = slider.max;
+            
+            // Update both slider and input (in case validation changed the value)
+            slider.value = value;
+            input.value = value;
+        }
+        
+        // Form submission handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('floorplan-form');
+            const btn = document.getElementById('generate-btn');
+            
+            form.addEventListener('submit', function(e) {
+                // Prevent default form submission for this demo
+                e.preventDefault();
+                
+                // Show loading state
+                btn.innerHTML = 'Generating';
+                btn.classList.add('loading');
+                btn.disabled = true;
+                
+                // In a real application, this would be handled by the form submission
+                // For demo purposes, we'll simulate a longer generation time
+                setTimeout(function() {
+                    // Submit the form after the delay
+                    form.submit();
+                }, 5000); // 5 seconds delay to simulate generation time
+            });
+        });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
